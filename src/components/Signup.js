@@ -4,10 +4,12 @@ import { Button, Form, Message } from "semantic-ui-react"
 import loginBackground from '../img/login_background.jpg'
 import './Login.css';
 
-class Login extends Component {
+class Signup extends Component {
     state = {
         username: "",
-        password: ""
+        password: "",
+        email: "",
+        blogname: ""
     }
 
     handleChange = (event, { name, value }) => {
@@ -22,13 +24,13 @@ class Login extends Component {
           <div className="login">
           <div className="container">
           	<div className="d-flex justify-content-center h-100">
-          		<div className="card login-card">
+          		<div className="card signup-card">
           			<div className="card-header">
-          				<h3>Sign In</h3>
+          				<h3>Sign Up</h3>
           			</div>
           			<div className="card-body">
                 <Form
-                        onSubmit={() => { this.props.onLogin(this.state.username, this.state.password) }}
+                        onSubmit={() => { this.props.onSignup(this.state.username, this.state.password, this.state.email, this.state.blogname) }}
                         size="mini"
                         key="mini"
                         loading={this.props.authenticatingUser}
@@ -49,13 +51,25 @@ class Login extends Component {
                                 onChange={this.handleChange}
                                 value={this.state.password}
                             />
+                            <Form.Input
+                                placeholder="e-mail"
+                                name="email"
+                                onChange={this.handleChange}
+                                value={this.state.email}
+                            />
+                            <Form.Input
+                                placeholder="blog name"
+                                name="blogname"
+                                onChange={this.handleChange}
+                                value={this.state.blogname}
+                            />
                         </Form.Group>
-                    <Button type="submit" className="btn float-right login_btn">Login</Button>
+                    <Button type="submit" className="btn float-right login_btn">Sign Up</Button>
           				</Form>
           			</div>
           			<div className="card-footer">
           				<div className="d-flex justify-content-center links">
-          					Don't have an account?<a href="/signup">Sign Up</a>
+          					Already have an account?<a href="/login">Login</a>
           				</div>
           			</div>
           		</div>
@@ -66,4 +80,4 @@ class Login extends Component {
     }
 }
 
-export default withRouter(Login)
+export default withRouter(Signup)

@@ -2,18 +2,29 @@ import React, { Component } from 'react'
 import image1 from '../img/Pic1.jpg'
 import image2 from '../img/Pic2.jpg'
 import image3 from '../img/Pic3.jpg'
-import { Carousel } from 'react-bootstrap'
+import { Carousel, Modal, Button } from 'react-bootstrap'
 
 class SideBarCard extends Component {
     constructor(props, context) {
         super(props, context);
 
         this.handleSelect = this.handleSelect.bind(this);
+        this.handleShow = this.handleShow.bind(this);
+        this.handleClose = this.handleClose.bind(this);
 
         this.state = {
             index: 0,
             direction: null,
+            show: false
         };
+    }
+
+    handleClose() {
+        this.setState({ show: false });
+    }
+
+    handleShow() {
+        this.setState({ show: true });
     }
 
     handleSelect(selectedIndex, e) {
@@ -58,10 +69,29 @@ class SideBarCard extends Component {
                     </Carousel.Item>
                 </Carousel>
                 <div className="card-body">
-                    <h5 className="card-title">Beau's Blog</h5>
-                    <p className="card-text">My exploration and adventures travelling throughout the world!</p>
-                    <a href="#" className="btn btn-primary">View</a>
+                    <h5 className="card-title">{this.props.userData.username} - {this.props.userData.blogname}</h5>
+                    <p className="card-text">{this.props.userData.blogdescription}</p>
+                    <a onClick={this.handleShow} className="btn btn-primary modalButton">View</a>
+                    <a href={"mailto:" + this.props.email} className="btn btn-primary modalButton">Send Message</a>
                 </div>
+
+
+                <Modal show={this.state.show} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>{this.props.userData.blogname}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>{this.props.userData.blogdescription}</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleClose}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={this.handleClose}>
+                            Comment
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+
             </div>
         )
     }
