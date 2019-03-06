@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { Button, Form, Message } from "semantic-ui-react"
 import loginBackground from '../img/login_background.jpg'
-import './Login.css';
 
 class Login extends Component {
     state = {

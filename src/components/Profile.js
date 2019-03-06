@@ -30,7 +30,7 @@ class Profile extends Component {
           	<div className="d-flex justify-content-center h-100">
           		<div className="card profile-card">
           			<div className="card-header">
-          				<h3>User Profile</h3>
+          				<h3>{this.state.username}</h3>
           			</div>
           			<div className="card-body">
                 <Form
@@ -42,12 +42,6 @@ class Profile extends Component {
                     >
                         <Message error header={this.props.failedLogin ? this.props.error : null} />
                         <Form.Group widths="equal">
-                            <Form.Input
-                                placeholder="user name"
-                                name="username"
-                                onChange={this.handleChange}
-                                value={this.state.username}
-                            />
                             <Form.Input
                                 placeholder="first name"
                                 name="first"
@@ -72,18 +66,11 @@ class Profile extends Component {
                                 onChange={this.handleChange}
                                 value={this.state.blogname}
                             />
-                            <Form.Input
+                            <Form.TextArea
                                 placeholder="blog description"
                                 name="blogdescription"
                                 onChange={this.handleChange}
                                 value={this.state.blogdescription}
-                            />
-                            <Form.Input
-                                placeholder="password"
-                                name="password"
-                                type="password"
-                                onChange={this.handleChange}
-                                value={this.state.password}
                             />
                         </Form.Group>
                     <Button type="submit" className="btn float-right login_btn">Update</Button>

@@ -176,17 +176,22 @@ const mapStyle = [
 
 
 class Map extends Component {
+
   render() {
     const GoogleMapWindow = withGoogleMap(props => (
       <GoogleMap
-        defaultCenter={{ lat: 40.756795, lng: -73.954298 }}
+        defaultCenter={{ lat: 38.9072, lng: -77.0369 }}
         defaultZoom={13}
         defaultOptions={{ styles: mapStyle}}
+        onClick={props.onMapClick}
       >
-        <Marker position={{ lat: 40.756795, lng: -73.954298 }} />
-        <Marker position={{ lat: 40.75, lng: -73.95 }} />
-        <Marker position={{ lat: 40.758, lng: -73.955 }} />
-        <Marker position={{ lat: 40.754, lng: -73.954 }} />
+
+      {this.props.locationData.map(location => {
+        return (
+          <Marker key={location.id} position={{ lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)}} />
+        )
+      })}
+
       </GoogleMap>
     ));
     return (

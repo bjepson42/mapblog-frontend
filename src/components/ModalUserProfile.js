@@ -27,7 +27,7 @@ class ModalUserProfile extends Component {
             <div>
                 <Button variant="primary" onClick={this.handleShow}>
                     Launch demo modal
-        </Button>
+                </Button>
 
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>

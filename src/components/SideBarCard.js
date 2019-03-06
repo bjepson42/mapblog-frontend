@@ -1,7 +1,4 @@
 import React, { Component } from 'react'
-import image1 from '../img/Pic1.jpg'
-import image2 from '../img/Pic2.jpg'
-import image3 from '../img/Pic3.jpg'
 import { Carousel, Modal, Button } from 'react-bootstrap'
 
 class SideBarCard extends Component {
@@ -15,7 +12,8 @@ class SideBarCard extends Component {
         this.state = {
             index: 0,
             direction: null,
-            show: false
+            show: false,
+            showImageDescription: false
         };
     }
 
@@ -43,44 +41,57 @@ class SideBarCard extends Component {
                     direction={direction}
                     onSelect={this.handleSelect}
                 >
-                    <Carousel.Item>
-                        <img className="d-block w-100" src={image1} alt="First slide" />
-                        <Carousel.Caption>
-                            <p>First slide label</p>
-                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img className="d-block w-100" src={image2} alt="Second slide" />
-                        <Carousel.Caption>
-                            <p>Second slide label</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img className="d-block w-100" src={image3} alt="Third slide" />
 
-                        <Carousel.Caption>
-                            <p>Third slide label</p>
-                            <p>
-                                Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-                            </p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
+                { this.props.userData.posts[0] ?
+                    this.props.userData.posts[0].pictures.map(picture => {
+                      return (<Carousel.Item>
+                          <img className="d-block w-100" src={picture.url} alt="First slide" />
+                      </Carousel.Item>)
+                  }) : null
+                }
+
                 </Carousel>
                 <div className="card-body">
                     <h5 className="card-title">{this.props.userData.username} - {this.props.userData.blogname}</h5>
                     <p className="card-text">{this.props.userData.blogdescription}</p>
-                    <a onClick={this.handleShow} className="btn btn-primary modalButton">View</a>
+                    <a onClick={this.handleShow} className="btn btn-primary modalButton">View Blog</a>
                     <a href={"mailto:" + this.props.email} className="btn btn-primary modalButton">Send Message</a>
                 </div>
-
 
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>{this.props.userData.blogname}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>{this.props.userData.blogdescription}</Modal.Body>
+                    { this.props.userData.posts[0] ?
+                        this.props.userData.posts.map(post => {
+                          return (
+
+                            <Modal.Body>
+                              <Carousel
+                                  activeIndex={index}
+                                  direction={direction}
+                                  onSelect={this.handleSelect}
+                              >
+
+                              { post.pictures ?
+                                  post.pictures.map(picture => {
+                                    return (<Carousel.Item>
+                                        <img className="d-block w-100" src={picture.url} alt="First slide" />
+                                    </Carousel.Item>)
+                                }) : null
+                              }
+
+                              </Carousel>
+                            {post.name} - {post.location.name} - {post.body}
+                            </Modal.Body>
+
+
+
+                          )
+                      }) : null
+                    }
+
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.handleClose}>
                             Close
@@ -90,8 +101,6 @@ class SideBarCard extends Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-
-
             </div>
         )
     }

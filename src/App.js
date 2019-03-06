@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import TopNavBar from './components/TopNavBar'
 import Body from './components/Body'
 import NotFound from './components/NotFound'
@@ -85,17 +84,21 @@ class App extends Component {
           "Content-Type": "application/json",
           "Accept": "application/json"
         },
-        body: JSON.stringify({
+        body: JSON.stringify({user:{
           username: username,
           password: password,
           email: email,
           blogname: blogname
+        }
         })
       })
       .then(res => res.json())
       .then(data => {
         if (data.error) {
           console.log(data)
+          debugger
+          console.log("wang")
+          data.status === 500 ? alert('account created, now login') :
           alert('Something broke, whats going on?')
         } else {
           this.setState({
@@ -106,24 +109,24 @@ class App extends Component {
       })
   }
 
-  handleNewPost = () => {
-      return(
-        <Modal show={this.state.show} onHide={this.handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>{this.props.userData.blogname}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>{this.props.userData.blogdescription}</Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={this.handleClose}>
-                    Close
-                </Button>
-                <Button variant="primary" onClick={this.handleClose}>
-                    Comment
-                </Button>
-            </Modal.Footer>
-        </Modal>
-      )
-  }
+  // handleNewPost = () => {
+  //     return(
+  //       <Modal show={this.state.show} onHide={this.handleClose}>
+  //           <Modal.Header closeButton>
+  //               <Modal.Title>{this.props.userData.blogname}</Modal.Title>
+  //           </Modal.Header>
+  //           <Modal.Body>{this.props.userData.blogdescription}</Modal.Body>
+  //           <Modal.Footer>
+  //               <Button variant="secondary" onClick={this.handleClose}>
+  //                   Close
+  //               </Button>
+  //               <Button variant="primary" onClick={this.handleClose}>
+  //                   Comment
+  //               </Button>
+  //           </Modal.Footer>
+  //       </Modal>
+  //     )
+  // }
 
   handleUpdate = (username, first, last, email, blogname, blogdescription, id) => {
     fetch(API + 'profile',
@@ -152,7 +155,6 @@ class App extends Component {
           this.setState({
             currentUser: data.user
           })
-          localStorage.setItem("token", data.token)
         }
       })
   }
@@ -226,6 +228,16 @@ class App extends Component {
               <Profile  currentUser={this.state.currentUser}
                         userData={this.state.users}
                         handleUpdate={this.handleUpdate}
+              /> : <Login   onLogin={this.handleLogin}
+                            handleLogout={this.handleLogout} />
+            }} />
+
+            <Route exact path="/newpost" render={() => {
+              return this.state.currentUser ?
+              <NewPost  currentUser={this.state.currentUser}
+                        userData={this.state.users}
+                        handleUpdate={this.handleUpdate}
+                        locationData={this.state.locations}
               /> : <Login   onLogin={this.handleLogin}
                             handleLogout={this.handleLogout} />
             }} />
